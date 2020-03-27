@@ -14,7 +14,7 @@ public class MainInteractorImpl implements MainInteractor{
     Endpoint endpoint;
 
     @Override
-    public void getMainInteractor(ListenerInteractor<Object> listenerInteractor) {
+    public void getMainInteractor(final ListenerInteractor<Object> listenerInteractor) {
 
         endpoint = Network.getRetrofit().create(Endpoint.class);
         Call<Object> call = endpoint.getEndPoint("pokemon-go1.p.rapidapi.com", "718e06a47dmshbd955be863f3b8dp1bd68fjsnc831a3a7d438");
@@ -25,11 +25,13 @@ public class MainInteractorImpl implements MainInteractor{
             public void onResponse(Call<Object> call, Response<Object> responses) {
 
                 Log.d("responSukses", "" + responses );
+
                 Object obj = responses.body();
                 if (responses.isSuccessful()){
-                    Log.d("responSukses", "" + obj );
+                    listenerInteractor.onSuccess(obj);
+                    Log.d("responSukses", "yeay" + obj );
                 } else {
-                    Log.d("onResponErorr", "" + obj );
+                    Log.d("onResponErorr", "nay" + obj );
                 }
             }
 
